@@ -45,7 +45,7 @@ def apply_sobel(image):
 def main():
 
     # Carrega imagem
-    image = cv2.imread("images/input/dog.jpg")
+    image = cv2.imread("images/input/dog.png")
 
     # BGR -> RGB
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

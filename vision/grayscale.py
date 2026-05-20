@@ -28,7 +28,7 @@ def rgb_to_grayscale(image):
 def main():
 
     # Carrega imagem
-    image = cv2.imread("images/input/dog.jpg")
+    image = cv2.imread("images/input/dog.png")
 
     # OpenCV carrega em BGR
     # converte para RGB

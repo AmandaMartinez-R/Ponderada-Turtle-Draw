@@ -24,7 +24,11 @@ def apply_threshold(image, threshold=100):
 def main():
 
     # Carrega imagem
-    image = cv2.imread("images/input/dog.jpg")
+    image = cv2.imread("images/input/dog.png")
+    if image is None:
+        raise FileNotFoundError(
+        "Imagem não encontrada em images/input/dog.png"
+    )
 
     # BGR -> RGB
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
