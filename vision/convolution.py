@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
-from grayscale import rgb_to_grayscale
+from vision.grayscale import rgb_to_grayscale
 
 
 def apply_convolution(image, kernel):
