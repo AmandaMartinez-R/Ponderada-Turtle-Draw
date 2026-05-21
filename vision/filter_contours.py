@@ -26,7 +26,7 @@ def filter_contours(contours, min_size=50):
 
 def draw_contours(shape, contours):
     """
-    Desenha contornos em uma imagem vazia.
+    Desenha contornos em uma imagem vazia
     """
 
     output = np.zeros(shape, dtype=np.uint8)
@@ -43,7 +43,7 @@ def draw_contours(shape, contours):
 def main():
 
     # Carrega imagem
-    image = cv2.imread("images/input/dog.jpg")
+    image = cv2.imread("images/input/dog.png")
 
     if image is None:
         raise FileNotFoundError(
