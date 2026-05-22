@@ -1,3 +1,13 @@
+import sys
+import os
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__),
+            '../../../../'
+        )
+    )
+)
 import cv2
 
 from vision.grayscale import rgb_to_grayscale
@@ -17,10 +27,23 @@ def generate_drawing_path():
     Gera trajetória completa para desenho.
     """
 
-    # Carrega imagem
-    image = cv2.imread(
-        'images/input/dog.jpg'
+    # Caminho absoluto da raiz do projeto
+    project_root = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        '../../../../'
     )
+)
+    # Caminho completo da imagem
+    image_path = os.path.join(
+    project_root,
+    'images',
+    'input',
+    'dog.png'
+    )
+
+    # Carrega imagem
+    image = cv2.imread(image_path)
 
     if image is None:
 
