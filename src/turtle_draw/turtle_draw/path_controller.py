@@ -42,15 +42,9 @@ class PathController(Node):
         self.current_theta = 0.0
 
         # Lista de pontos
-        self.path = [
-
-            (2.0, 2.0),
-            (8.0, 2.0),
-            (8.0, 8.0),
-            (2.0, 8.0),
-            (2.0, 2.0)
-
-        ]
+        self.path = generate_drawing_path(
+            
+        )
 
         # Índice atual
         self.current_goal_index = 0

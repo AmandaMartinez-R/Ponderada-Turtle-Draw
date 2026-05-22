@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'turtle_controller = turtle_draw.turtle_controller:main',
             'point_controller = turtle_draw.point_controller:main',
+            'path_controller = turtle_draw.path_controller:main',
         ],
     },
 )
