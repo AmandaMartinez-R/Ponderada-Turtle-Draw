@@ -71,7 +71,7 @@ def generate_drawing_path():
 
     for contour in turtle_contours:
 
-        for point in contour:
+        for point in contour[::5]:
 
             full_path.append(point)
 
