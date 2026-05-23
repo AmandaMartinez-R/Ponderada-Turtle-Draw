@@ -3,7 +3,7 @@
 
 ## Vídeo explicativo
 
-Acesse o vídeo [aqui]()
+Acesse o vídeo [aqui](https://youtu.be/8ULHrcfLp04)
 
 ## Visão geral
 
