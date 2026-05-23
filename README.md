@@ -1,4 +1,9 @@
-# Ponderada-Turtle-Draw
+# Visão Digital: Contornando uma Imagem com Turtle Draw
+
+
+## Vídeo explicativo
+
+Acesse o vídeo [aqui]()
 
 ## Visão geral
 
