@@ -2,12 +2,17 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-from vision.grayscale import rgb_to_grayscale
-from vision.blur import apply_blur
-from vision.sobel import apply_sobel
+from turtle_draw.vision.grayscale import (
+    rgb_to_grayscale)
+from turtle_draw.vision.blur import (
+    apply_blur
+)
+from turtle_draw.vision.sobel import (
+    apply_sobel
+)
 
 
-def apply_threshold(image, threshold=100):
+def apply_threshold(image, threshold=140):
     """
     Aplica threshold binário manual.
     """
@@ -66,6 +71,16 @@ def main():
     plt.axis("off")
 
     plt.show()
+
+    print(
+    "Valor mínimo:",
+    np.min(binary)
+    )
+
+    print(
+    "Valor máximo:",
+    np.max(binary)
+    )
 
 
 if __name__ == "__main__":

@@ -2,12 +2,23 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-from vision.grayscale import rgb_to_grayscale
-from vision.blur import apply_blur
-from vision.sobel import apply_sobel
-from vision.threshold import apply_threshold
-from vision.contours import find_contours
-from vision.filter_contours import filter_contours
+from turtle_draw.vision.grayscale import (
+    rgb_to_grayscale
+)
+from turtle_draw.vision.blur import (
+    apply_blur)
+from turtle_draw.vision.sobel import (
+    apply_sobel
+)
+from turtle_draw.vision.threshold import (
+    apply_threshold
+)
+from turtle_draw.vision.contours import (
+    find_contours
+)
+from turtle_draw.vision.filter_contours import (
+    filter_contours
+)
 
 
 TURTLESIM_SIZE = 11.0

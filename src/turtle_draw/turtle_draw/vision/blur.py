@@ -2,8 +2,12 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-from vision.grayscale import rgb_to_grayscale
-from vision.convolution import apply_convolution
+from turtle_draw.vision.grayscale import (
+    rgb_to_grayscale
+)
+from turtle_draw.vision.convolution import (
+    apply_convolution
+)
 
 
 def apply_blur(image):

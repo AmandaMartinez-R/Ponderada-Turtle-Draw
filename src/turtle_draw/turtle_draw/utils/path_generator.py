@@ -10,13 +10,22 @@ sys.path.append(
 )
 import cv2
 
-from vision.grayscale import rgb_to_grayscale
-from vision.blur import apply_blur
-from vision.sobel import apply_sobel
-from vision.threshold import apply_threshold
-from vision.contours import find_contours
-from vision.filter_contours import filter_contours
-from vision.coordinate_conversion import (
+from turtle_draw.vision.grayscale import (
+    rgb_to_grayscale
+)
+from turtle_draw.vision.blur import (
+    apply_blur
+)
+from turtle_draw.vision.sobel import (
+    apply_sobel
+)
+from turtle_draw.vision.threshold import (
+    apply_threshold)
+from turtle_draw.vision.contours import (
+    find_contours)
+from turtle_draw.vision.filter_contours import (
+    filter_contours)
+from turtle_draw.vision.coordinate_conversion import (
     convert_contours_to_turtle
 )
 
@@ -89,13 +98,13 @@ def generate_drawing_path():
         )
     )
 
-    # Junta todos os pontos
-    full_path = []
+    drawing_contours = []
 
     for contour in turtle_contours:
 
-        for point in contour[::5]:
+        sampled = contour[::5]
 
-            full_path.append(point)
+        if len(sampled) >= 2:
+            drawing_contours.append(sampled)
 
-    return full_path
+    return drawing_contours

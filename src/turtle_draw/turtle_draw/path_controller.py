@@ -8,6 +8,8 @@ from geometry_msgs.msg import Twist
 
 from turtlesim.msg import Pose
 
+from turtlesim.srv import SetPen
+
 # Importa gerador de trajetória
 from turtle_draw.utils.path_generator import (
     generate_drawing_path
@@ -36,46 +38,92 @@ class PathController(Node):
             10
         )
 
-        # Timer de controle
-        self.timer = self.create_timer(
-            0.1,
-            self.control_loop
+        # Serviço da caneta
+        self.set_pen_client = self.create_client(
+            SetPen,
+            '/turtle1/set_pen'
         )
+
+        while not self.set_pen_client.wait_for_service(
+            timeout_sec=1.0
+        ):
+            self.get_logger().info(
+                'Aguardando serviço set_pen...'
+            )
 
         # Pose atual
         self.current_x = 0.0
         self.current_y = 0.0
         self.current_theta = 0.0
 
-        # Gera trajetória da imagem
+        self.pose_received = False
+
+        # Gera trajetória
         self.path = generate_drawing_path()
 
-        # Índice do waypoint atual
-        self.current_goal_index = 0
+        # Índice do ponto atual
+        self.current_point_index = 0
+
+        # Inicialização da caneta
+        self.pen_initialized = False
+
+        # Timer principal
+        self.timer = self.create_timer(
+            0.05,
+            self.control_loop
+        )
 
         self.get_logger().info(
             f'Trajetória carregada com '
             f'{len(self.path)} pontos.'
         )
 
+    def set_pen(self, off):
+
+        request = SetPen.Request()
+
+        request.r = 255
+        request.g = 255
+        request.b = 255
+
+        request.width = 2
+
+        request.off = 1 if off else 0
+
+        self.set_pen_client.call_async(request)
+
     def pose_callback(self, msg):
 
         """
-        Atualiza posição atual da tartaruga.
+        Atualiza posição atual.
         """
 
         self.current_x = msg.x
         self.current_y = msg.y
         self.current_theta = msg.theta
 
+        self.pose_received = True
+
     def control_loop(self):
 
         """
-        Loop principal de controle.
+        Controle principal.
         """
 
-        # Verifica se terminou
-        if self.current_goal_index >= len(self.path):
+        if not self.pose_received:
+            return
+
+        # Inicializa caneta
+        if not self.pen_initialized:
+
+            self.set_pen(off=False)
+
+            self.pen_initialized = True
+
+            return
+
+        # Verifica fim
+        if self.current_point_index >= len(self.path):
 
             stop_msg = Twist()
 
@@ -87,16 +135,16 @@ class PathController(Node):
 
             return
 
-        # Obtém waypoint atual
+        # Obtém ponto alvo
         goal_x, goal_y = self.path[
-            self.current_goal_index
+            self.current_point_index
         ]
 
-        # Diferença
+        # Diferenças
         dx = goal_x - self.current_x
         dy = goal_y - self.current_y
 
-        # Distância euclidiana
+        # Distância correta
         distance = math.sqrt(
             dx**2 + dy**2
         )
@@ -119,36 +167,36 @@ class PathController(Node):
             math.cos(angle_error)
         )
 
-        # Cria mensagem
+        # Cria comando
         msg = Twist()
 
         # Controle angular
         msg.angular.z = 4.0 * angle_error
 
         # Controle linear
-        msg.linear.x = 2.0 * distance
+        msg.linear.x = 1.5 * distance
 
-        # Limita velocidade linear
+        # Limite
         if msg.linear.x > 2.0:
             msg.linear.x = 2.0
 
-        # Se estiver muito desalinhado:
-        # gira antes de andar
-        if abs(angle_error) > 0.5:
+        # Se desalinhado:
+        # gira primeiro
+        if abs(angle_error) > 0.3:
 
             msg.linear.x = 0.0
 
-        # Verifica chegada
-        if distance < 0.2:
+        # Chegou no ponto
+        if distance < 0.15:
+
+            self.current_point_index += 1
 
             self.get_logger().info(
                 f'Ponto alcançado: '
-                f'{self.current_goal_index}'
+                f'{self.current_point_index}'
             )
 
-            self.current_goal_index += 1
-
-        # Publica comando
+        # Publica movimento
         self.publisher_.publish(msg)
 
 
